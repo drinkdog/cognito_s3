@@ -1,0 +1,32 @@
+<!-- templates/buckets.html -->
+{% extends "base.html" %}
+
+{% block title %}Buckets - S3 Browser{% endblock %}
+
+{% block content %}
+<h2>Buckets</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Bucket Name</th>
+      <th>Creation Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for bucket in buckets %}
+    <tr>
+      <td>{{ bucket.Name }}</td>
+      <td>{{ bucket.CreationDate }}</td>
+      <td>
+        <a href="{{ url_for('list_objects', bucket_name=bucket.Name) }}" class="btn btn-sm btn-primary">View Objects</a>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="3">No buckets available.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
