@@ -3,10 +3,10 @@
 ## 프로젝트 개요
 이 프로젝트는 Flask를 기반으로 AWS Cognito(OAuth 2.0 인증)와 S3(파일 저장소)를 연동하여 안전한 사용자 인증 및 파일 업로드 기능을 제공하는 웹 애플리케이션입니다.
 
-✅ AWS Cognito OAuth 2.0 로그인 지원
-✅ AWS S3 파일 업로드, 다운로드, 삭제 기능
-✅ Cognito Federated Identities를 통한 임시 AWS 자격 증명 사용
-✅ Flask 기반의 RESTful API 및 예외 처리 적용
+✅ AWS Cognito OAuth 2.0 로그인 지원\n
+✅ AWS S3 파일 업로드, 다운로드, 삭제 기능\n
+✅ Cognito Federated Identities를 통한 임시 AWS 자격 증명 사용\n
+✅ Flask 기반의 RESTful API 및 예외 처리 적용\n
 
 ---
 
