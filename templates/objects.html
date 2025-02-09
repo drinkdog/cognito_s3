@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Objects in {{ bucket_name }}{% endblock %}
+
+{% block content %}
+<h2>Objects in Bucket: {{ bucket_name }}</h2>
+
+<!-- 현재 폴더 경로 표시 -->
+{% if prefix %}
+<p>Current Path: <strong>{{ prefix }}</strong></p>
+{% endif %}
+
+<!-- 업로드 버튼 -->
+<form action="{{ url_for('upload_file', bucket_name=bucket_name) }}" method="get">
+  <button type="submit" class="btn btn-primary">Upload File</button>
+</form>
+
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- 부모 폴더로 이동 버튼 -->
+    {% if prefix %}
+    <tr>
+      <td>
+        <a href="{{ url_for('list_objects', bucket_name=bucket_name, prefix=parent_prefix) }}"><strong>⬆️ Go Up</strong></a>
+      </td>
+      <td></td>
+    </tr>
+    {% endif %}
+
+    <!-- 폴더 목록 -->
+    {% for folder in folders %}
+    <tr>
+      <td>
+        <a href="{{ url_for('list_objects', bucket_name=bucket_name, prefix=folder) }}"><strong>📁 {{ folder.split('/')[-2] }}</strong></a>
+      </td>
+      <td></td>
+    </tr>
+    {% endfor %}
+
+    <!-- 파일 목록 -->
+    {% for obj in objects %}
+    <tr>
+      <td>{{ obj.Key.split('/')[-1] }}</td>
+      <td>
+        <!-- 다운로드 버튼 -->
+        <a href="{{ url_for('download_file', bucket_name=bucket_name, object_key=obj.Key) }}" class="btn btn-success btn-sm">Download</a>
+
+        <!-- 삭제 버튼 -->
+        <form action="{{ url_for('delete_file', bucket_name=bucket_name, object_key=obj.Key) }}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete {{ obj.Key }}?');">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+
+    {% if not folders and not objects %}
+    <tr>
+      <td colspan="2" class="text-center">No objects found in this bucket.</td>
+    </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<!-- 루트로 돌아가기 버튼 -->
+{% if prefix %}
+<a href="{{ url_for('list_objects', bucket_name=bucket_name) }}" class="btn btn-secondary">Back to Root</a>
+{% endif %}
+
+<a href="{{ url_for('list_buckets') }}" class="btn btn-secondary">Back to Buckets</a>
+{% endblock %}
